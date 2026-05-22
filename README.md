@@ -106,6 +106,8 @@ rm(kras_mutation_freq_plot_df,kras_freq_plot)
 Based on the plot, we can see that "COAD" (Colon Adenocarcinoma) has the highest frequency of KRAS mutations followed by "LUAD" (Lung Adenocarcinoma).\
 Let's now filter the mutation data ONLY for KRAS silent mutations
 
+## KRAS Silent Mutation Frequency
+
 ```r 
 kras_tcga_silent_mutation_data<-kras_tcga_mutation_data %>% filter(Variant_Classification=="Silent")
 
@@ -157,6 +159,8 @@ Based on the plot, we can see that "UCEC" (Uterine Corpus Endometrial Carcinoma)
 
 Let's now look at the amino acid change distribution within KRAS 
 
+## KRAS Amino Acid Change Distribution
+
 ```r
 #KRAS mutations amino acid change summary
 kras_AA_change_freq_plot_df <- kras_tcga_mutation_data %>% group_by(HGVSp_Short) %>% 
@@ -206,6 +210,8 @@ rm(kras_AA_change_freq_plot)
 Based on the plot, we can see that "G12D" is the most prominent among KRAS mutations.
 
 Now lets see which cancer has the most frequent G12D KRAS mutations.
+
+## G12D Mutation Analysis
 
 ```r 
 #Filtering the mutation data ONLY for KRAS G12D mutations
@@ -294,6 +300,8 @@ kras_AA_G12D_mutation_percent_plot
 rm(kras_AA_G12D_mutation_percent_plot,kras_AA_G12D_mutation_count_plot,KRAS_clinical_AA_G12D_mutation,KRAS_clinical_AA_G12D_mutation_freq_plot_df)
 ```
 ![KRAS amino acid G12D mutation percent plot](/plots/KRAS_AA_G12D_mutation_percent_plot.png)
+
+## Clinical Correlation in Pancreatic Cancer PAAD
 
 Now lets focus on the pancreatic adenocarcinoma (PAAD) KRAS mutated samples.
 
