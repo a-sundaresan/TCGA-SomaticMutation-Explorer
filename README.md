@@ -407,7 +407,7 @@ KRAS_WT_mutant_age_df_violin+
 ```
 ![KRAS WT mutant age violin plot](/plots/KRAS_WT_mutant_age_df_violin_plot.png)
 
-# Wilcoxon rank-sum test to compare age at diagnosis between KRAS mutated and WT
+#### Wilcoxon rank-sum test to compare age at diagnosis between KRAS mutated and WT
 wilcox_test_result <- wilcox.test(Age_at_initial_pathologic_diagnosis ~ Group,
                                   data = KRAS_WT_mutant_age_df,
                                   exact = FALSE)
