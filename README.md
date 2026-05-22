@@ -4,18 +4,13 @@ Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
 Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
 
 ## Table of Contents
-## Data Sources
-
-## KRAS Mutation Frequency Across Cancer Types
-
-## KRAS Silent Mutation Frequency
-
-## KRAS Amino Acid Change Distribution
-
-## G12D Mutation Analysis
-
-## Clinical Correlation in Pancreatic Cancer PAAD
-
+## Table of Contents
+- [Data Sources](#data-sources)
+- [KRAS Mutation Frequency Across Cancer Types](#kras-mutation-frequency-across-cancer-types)
+- [KRAS Silent Mutation Frequency](#kras-silent-mutation-frequency)
+- [KRAS Amino Acid Change Distribution](#kras-amino-acid-change-distribution)
+- [G12D Mutation Analysis](#g12d-mutation-analysis)
+- [Clinical Correlation in Pancreatic Cancer PAAD](#clinical-correlation-in-pancreatic-cancer-paad)
 ---
 
 ## Key Findings
@@ -30,6 +25,7 @@ Focuses on KRAS mutation frequency, amino acid changes, and clinical correlation
 **Data:** TCGA MAF file + clinical data (publicly available via GDC)  
 **Tools:** R, ggplot2, dplyr, tidyr
 
+## Data Sources
 #### Here we are going to do some basic filtering on the TCGA somatic mutation data, combine with the clinical data and use simple visualizations to interrogate the data
 TCGA somatic mutation data was downloaded from [here](https://api.gdc.cancer.gov/data/1c8cfe5f-e52d-41ba-94da-f15ea1337efc).\
 This file is in Mutation Annotation Format. To know more about this use the info [here](https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format). \
@@ -66,6 +62,7 @@ kras_tcga_mutation_data<-tcga_mutation_data %>% filter(Hugo_Symbol=="KRAS")
 #Filtering the clinical data ONLY for patients with KRAS mutations
 KRAS_clinical<-filter(tcga_clinical_data,bcr_patient_barcode %in% kras_tcga_mutation_data$id)
 ```
+## KRAS Mutation Frequency Across Cancer Types
 
 Let us compute the frequency of KRAS mutations.\
 Here I am grouping by the acronym column and computing the number of mutations and frequency of mutations for each specific cancer type.\
