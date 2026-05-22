@@ -130,7 +130,7 @@ kras_silent_mutation_freq_plot
 rm(kras_tcga_silent_mutation_data,kras_silent_mutation_freq_plot,kras_silent_mutation_freq_plot_df)
 ```
 
-![KRAS silent mutation frequency plot](/TCGA_plots/KRAS_silent_mutation_frequency_plot.png)
+![KRAS silent mutation frequency plot](/plots/KRAS_silent_mutation_frequency_plot.png)
 
 Based on the plot, we can see that "UCEC" (Uterine Corpus Endometrial Carcinoma) has the highest frequency of KRAS silent mutations.
 
@@ -180,7 +180,7 @@ kras_AA_change_freq_plot <- kras_AA_change_freq_plot +
 kras_AA_change_freq_plot
 rm(kras_AA_change_freq_plot)
 ```
-![KRAS amino acid change plot](/TCGA_plots/KRAS_AA_change_plot.png)
+![KRAS amino acid change plot](/plots/KRAS_AA_change_plot.png)
 
 Based on the plot, we can see that "G12D" is the most prominent among KRAS mutations.
 
@@ -233,7 +233,7 @@ kras_AA_G12D_mutation_count_plot <- kras_AA_G12D_mutation_count_plot +
                                          title = "Amino acid change (G12D) count")
 kras_AA_G12D_mutation_count_plot
 ```
-![KRAS amino acid G12D mutation count plot](/TCGA_plots/KRAS_AA_G12D_mutation_count.png)
+![KRAS amino acid G12D mutation count plot](/plots/KRAS_AA_G12D_mutation_count.png)
 
 From the plot we can see that the G12D mutation is more prevalent in COAD(Colon Adenocarcinoma) and PAAD (Pancreatic Adenocarcinoma).
 
@@ -272,7 +272,7 @@ kras_AA_G12D_mutation_percent_plot
 
 rm(kras_AA_G12D_mutation_percent_plot,kras_AA_G12D_mutation_count_plot,KRAS_clinical_AA_G12D_mutation,KRAS_clinical_AA_G12D_mutation_freq_plot_df)
 ```
-![KRAS amino acid G12D mutation percent plot](/TCGA_plots/KRAS_AA_G12D_mutation_percent_plot.png)
+![KRAS amino acid G12D mutation percent plot](/plots/KRAS_AA_G12D_mutation_percent_plot.png)
 
 Now lets focus on the pancreatic adenocarcinoma (PAAD) KRAS mutated samples.
 
@@ -347,7 +347,7 @@ ggplot(KRAS_WT_mutant_age_df, aes(Age_at_initial_pathologic_diagnosis, fill=Grou
              panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
              legend.title = element_blank())
 ```
-![KRAS WT mutant age density plot](/TCGA_plots/KRAS_WT_mutant_age_df_density_plot.png)
+![KRAS WT mutant age density plot](/plots/KRAS_WT_mutant_age_df_density_plot.png)
 
 ```r
 #Violin Plot of age at initial pathologic diagnosis for KRAS_WT and KRAS_mutated
@@ -371,4 +371,4 @@ KRAS_WT_mutant_age_df_violin+
                                    legend.title = element_blank())
 
 ```
-![KRAS WT mutant age violin plot](/TCGA_plots/KRAS_WT_mutant_age_df_violin_plot.png)
+![KRAS WT mutant age violin plot](/plots/KRAS_WT_mutant_age_df_violin_plot.png)
