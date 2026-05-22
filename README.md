@@ -19,7 +19,7 @@ Focuses on KRAS mutation frequency, amino acid changes, and clinical correlation
 - **UCEC leads silent mutations** — Uterine Corpus Endometrial Carcinoma (UCEC) shows the highest frequency of KRAS silent mutations, suggesting a distinct mutational mechanism
 - **G12D is the most prevalent KRAS variant** — Among all amino acid changes, G12D is the most common KRAS mutation in the TCGA pan-cancer cohort
 - **G12D is enriched in COAD and PAAD** — The G12D hotspot mutation is most prevalent in Colon Adenocarcinoma and Pancreatic Adenocarcinoma, consistent with its known role as a driver mutation in these cancer types
-- **No significant age difference in PAAD** — Age at initial pathologic diagnosis is similar between KRAS mutated (mean 65.2 years) and KRAS wild-type (mean 64.4 years) pancreatic cancer patients, suggesting KRAS mutation status does not strongly influence age of onset in PAAD
+- **No significant age difference in PAAD** — Age at diagnosis is similar between KRAS mutated (mean 65.2y) and wild-type (mean 64.4y) patients (Wilcoxon p = 0.4522), suggesting KRAS mutation status does not influence age of onset in pancreatic cancer
 ---
 
 **Data:** TCGA MAF file + clinical data (publicly available via GDC)  
@@ -401,3 +401,26 @@ KRAS_WT_mutant_age_df_violin+
 
 ```
 ![KRAS WT mutant age violin plot](/plots/KRAS_WT_mutant_age_df_violin_plot.png)
+
+# Wilcoxon rank-sum test to compare age at diagnosis between KRAS mutated and WT
+wilcox_test_result <- wilcox.test(Age_at_initial_pathologic_diagnosis ~ Group,
+                                  data = KRAS_WT_mutant_age_df,
+                                  exact = FALSE)
+
+print(wilcox_test_result)
+
+# Wilcoxon rank-sum test with continuity correction
+# 
+# data:  Age_at_initial_pathologic_diagnosis by Group
+# W = 4216.5, p-value = 0.4522
+# alternative hypothesis: true location shift is not equal to 0
+
+The Wilcoxon rank-sum test was used to compare age at initial pathologic 
+diagnosis between KRAS mutated and KRAS wild-type PAAD patients. 
+
+- KRAS mutated: mean age 65.2 years (N=~150)
+- KRAS wild-type: mean age 64.4 years (N=~30)
+- Wilcoxon p-value: update after running
+
+The result suggests that KRAS mutation status does not significantly influence age of onset in pancreatic adenocarcinoma.
+
