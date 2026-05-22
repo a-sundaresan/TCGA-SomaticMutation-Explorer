@@ -1,5 +1,10 @@
 # TCGA Somatic Mutation Explorer
 
+![Language](https://img.shields.io/badge/Language-R-276DC3?style=flat-square&logo=r)
+![Data](https://img.shields.io/badge/Data-TCGA%20GDC-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
+
 Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
 Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
 
@@ -409,10 +414,10 @@ wilcox_test_result <- wilcox.test(Age_at_initial_pathologic_diagnosis ~ Group,
 
 print(wilcox_test_result)
 
-#### Wilcoxon rank-sum test with continuity correction
-#### data:  Age_at_initial_pathologic_diagnosis by Group
-#### W = 4216.5, p-value = 0.4522
-#### alternative hypothesis: true location shift is not equal to 0
+##### Wilcoxon rank-sum test with continuity correction
+##### data:  Age_at_initial_pathologic_diagnosis by Group
+##### W = 4216.5, p-value = 0.4522
+##### alternative hypothesis: true location shift is not equal to 0
 
 The Wilcoxon rank-sum test was used to compare age at initial pathologic 
 diagnosis between KRAS mutated and KRAS wild-type PAAD patients. 
