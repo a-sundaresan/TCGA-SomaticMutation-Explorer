@@ -428,3 +428,8 @@ diagnosis between KRAS mutated and KRAS wild-type PAAD patients.
 
 The result suggests that KRAS mutation status does not significantly influence age of onset in pancreatic adenocarcinoma.
 
+## Advanced Somatic Mutation Analysis with maftools
+
+Having explored KRAS-specific mutations and clinical correlations, we now use the `maftools` package for a broader view of the somatic mutation landscape across the TCGA pan-cancer cohort. 
+`maftools` provides a suite of functions specifically designed for MAF file analysis and produces publication-ready visualizations.
+
