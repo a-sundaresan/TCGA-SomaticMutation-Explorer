@@ -3,6 +3,25 @@
 Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
 Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
 
+## Table of Contents
+- [Data Sources](#data-sources)
+- [KRAS Mutation Frequency Across Cancer Types](#kras-mutation-frequency-across-cancer-types)
+- [KRAS Silent Mutation Frequency](#kras-silent-mutation-frequency)
+- [KRAS Amino Acid Change Distribution](#kras-amino-acid-change-distribution)
+- [G12D Mutation Analysis](#g12d-mutation-analysis)
+- [Clinical Correlation in Pancreatic Cancer (PAAD)](#clinical-correlation-in-pancreatic-cancer-paad)
+
+---
+
+## Key Findings
+
+- **COAD dominates KRAS mutations** — Colon Adenocarcinoma (COAD) has the highest frequency of KRAS mutations across all TCGA cancer types, followed by Lung Adenocarcinoma (LUAD)
+- **UCEC leads silent mutations** — Uterine Corpus Endometrial Carcinoma (UCEC) shows the highest frequency of KRAS silent mutations, suggesting a distinct mutational mechanism
+- **G12D is the most prevalent KRAS variant** — Among all amino acid changes, G12D is the most common KRAS mutation in the TCGA pan-cancer cohort
+- **G12D is enriched in COAD and PAAD** — The G12D hotspot mutation is most prevalent in Colon Adenocarcinoma and Pancreatic Adenocarcinoma, consistent with its known role as a driver mutation in these cancer types
+- **No significant age difference in PAAD** — Age at initial pathologic diagnosis is similar between KRAS mutated (mean 65.2 years) and KRAS wild-type (mean 64.4 years) pancreatic cancer patients, suggesting KRAS mutation status does not strongly influence age of onset in PAAD
+---
+
 **Data:** TCGA MAF file + clinical data (publicly available via GDC)  
 **Tools:** R, ggplot2, dplyr, tidyr
 
