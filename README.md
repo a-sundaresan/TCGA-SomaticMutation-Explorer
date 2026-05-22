@@ -4,12 +4,17 @@ Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
 Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
 
 ## Table of Contents
-- [Data Sources](#data-sources)
-- [KRAS Mutation Frequency Across Cancer Types](#kras-mutation-frequency-across-cancer-types)
-- [KRAS Silent Mutation Frequency](#kras-silent-mutation-frequency)
-- [KRAS Amino Acid Change Distribution](#kras-amino-acid-change-distribution)
-- [G12D Mutation Analysis](#g12d-mutation-analysis)
-- [Clinical Correlation in Pancreatic Cancer (PAAD)](#clinical-correlation-in-pancreatic-cancer-paad)
+## Data Sources
+
+## KRAS Mutation Frequency Across Cancer Types
+
+## KRAS Silent Mutation Frequency
+
+## KRAS Amino Acid Change Distribution
+
+## G12D Mutation Analysis
+
+## Clinical Correlation in Pancreatic Cancer PAAD
 
 ---
 
