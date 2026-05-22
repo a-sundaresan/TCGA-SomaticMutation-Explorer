@@ -80,7 +80,7 @@ kras_freq_plot
 
 rm(kras_mutation_freq_plot_df,kras_freq_plot)
 ```
-![KRAS mutation frequency plot](/TCGA_plots/KRAS_mutation_frequency_plot.png)
+![KRAS mutation frequency plot](/plots/KRAS_mutation_frequency_plot.png)
 
 Based on the plot, we can see that "COAD" (Colon Adenocarcinoma) has the highest frequency of KRAS mutations followed by "LUAD" (Lung Adenocarcinoma).\
 Let's now filter the mutation data ONLY for KRAS silent mutations
