@@ -409,11 +409,10 @@ wilcox_test_result <- wilcox.test(Age_at_initial_pathologic_diagnosis ~ Group,
 
 print(wilcox_test_result)
 
-# Wilcoxon rank-sum test with continuity correction
-# 
-# data:  Age_at_initial_pathologic_diagnosis by Group
-# W = 4216.5, p-value = 0.4522
-# alternative hypothesis: true location shift is not equal to 0
+#### Wilcoxon rank-sum test with continuity correction
+#### data:  Age_at_initial_pathologic_diagnosis by Group
+#### W = 4216.5, p-value = 0.4522
+#### alternative hypothesis: true location shift is not equal to 0
 
 The Wilcoxon rank-sum test was used to compare age at initial pathologic 
 diagnosis between KRAS mutated and KRAS wild-type PAAD patients. 
