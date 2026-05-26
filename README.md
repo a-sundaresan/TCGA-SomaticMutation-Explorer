@@ -473,6 +473,13 @@ km_fit <- survfit(surv_object ~ Group,
 
 # Summary
 summary(km_fit)$table
+
+| Group | N | Events | Median Survival (months) | 95% CI Lower | 95% CI Upper |
+|-------|---|--------|--------------------------|--------------|--------------|
+| KRAS Mutated | 118 | 75 | 17.0 | 15.4 | 20.8 |
+| KRAS Wild-type | 67 | 25 | 43.8 | 20.6 | NA* |
+
+*Upper confidence limit not reached — insufficient events in KRAS wild-type group
 ```
 
 #### Kaplan-Meier Survival Curves
@@ -503,10 +510,7 @@ km_plot <- ggsurvplot(
   risk.table.fontsize = 3.5
 )
 
-# Save
-png("plots/KRAS_survival_KM.png", width = 2400, height = 2000, res = 200)
 print(km_plot)
-dev.off()
 ```
 
 ![Kaplan-Meier Survival Plot](/plots/KRAS_survival_KM.png)
