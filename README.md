@@ -29,7 +29,7 @@ Focuses on KRAS mutation frequency, amino acid changes, clinical correlations an
 ---
 
 **Data:** TCGA MAF file + clinical data (publicly available via GDC)  
-**Tools:** R, ggplot2, dplyr, tidyr
+**Tools:** R, ggplot2, dplyr, tidyr, maftools, stringr, scales
 
 ## Data Sources
 #### Here we are going to do some basic filtering on the TCGA somatic mutation data, combine with the clinical data and use simple visualizations to interrogate the data
