@@ -17,12 +17,12 @@ Focuses on KRAS mutation frequency, amino acid changes, clinical correlations an
 - [Clinical Correlation in Pancreatic Cancer PAAD](#clinical-correlation-in-pancreatic-cancer-paad)
   - [Survival Analysis — KRAS Mutation Status in PAAD](#survival-analysis--kras-mutation-status-in-paad)
 - [Advanced Somatic Mutation Analysis with maftools](#advanced-somatic-mutation-analysis-with-maftools)
-  - [1. Pan-cancer Mutation Summary](#1-pan-cancer-mutation-summary)
-  - [2. KRAS Lollipop Plot](#2-kras-lollipop-plot)
-  - [3. Oncoplot — Top Mutated Genes in PAAD](#3-oncoplot--top-mutated-genes-in-paad)
-  - [4. Somatic Interactions — Co-mutation Analysis](#4-somatic-interactions--co-mutation-analysis)
-  - [5. Transition and Transversion Analysis](#5-transition-and-transversion-analysis)
-  - [6. Tumor Mutational Burden — TCGA Comparison](#6-tumor-mutational-burden--tcga-comparison)
+  - [Pan-cancer Mutation Summary](#1-pan-cancer-mutation-summary)
+  - [KRAS Lollipop Plot](#2-kras-lollipop-plot)
+  - [Oncoplot — Top Mutated Genes in PAAD](#3-oncoplot--top-mutated-genes-in-paad)
+  - [Somatic Interactions — Co-mutation Analysis](#4-somatic-interactions--co-mutation-analysis)
+  - [Transition and Transversion Analysis](#5-transition-and-transversion-analysis)
+  - [Tumor Mutational Burden — TCGA Comparison](#6-tumor-mutational-burden--tcga-comparison)
 ---
 
 ## Key Findings
