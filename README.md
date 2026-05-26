@@ -6,7 +6,7 @@
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
 
 Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
-Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
+Focuses on KRAS mutation frequency, amino acid changes, clinical correlations and advanced somatic mutation analysis using maftools across TCGA cancer types.
 
 ## Table of Contents
 - [Data Sources](#data-sources)
