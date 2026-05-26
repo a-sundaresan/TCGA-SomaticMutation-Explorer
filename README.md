@@ -458,22 +458,22 @@ tcga_maf
 
 ### 1. Pan-cancer Mutation Summary
 
-The summary plot provides an at-a-glance overview of the entire dataset: 
+The summary plot provides an at-a-glance overview of the entire dataset:  
 variant classifications, variant types, SNV classes, variants per sample, and the top 10 most frequently mutated genes.
 
 ```r
-png("plots/maf_summary_plot.png", width = 2700, height = 2000, res = 200)
+
 plotmafSummary(maf = tcga_maf,rmOutlier = TRUE,
                addStat = "median",dashboard = TRUE,
                titvRaw = FALSE)
-dev.off()
+
 ```
 
 ![MAF Summary Plot](/plots/maf_summary_plot.png)
 
 The summary reveals the overall mutational landscape across TCGA cancer types. 
-Missense mutations dominate the variant classification, consistent with known cancer mutation patterns. 
-TP53 and KRAS appear among the top frequently mutated genes pan-cancer.
+Missense mutations dominate the variant classification, consistent with known cancer mutation patterns.  
+TP53 and KRAS appear among the top frequently mutated genes pan-cancer. 
 
 ---
 
@@ -484,18 +484,18 @@ summary of where mutations cluster along the protein domain.
 This is particularly informative for identifying hotspot residues.
 
 ```r
-png("plots/KRAS_lollipop_plot.png", width = 2700, height = 2000, res = 200)
+
 lollipopPlot(maf = tcga_maf,gene = "KRAS",
              AACol = "HGVSp_Short",showMutationRate = TRUE,
              showDomainLabel = FALSE,axisTextSize = c(1, 1))
              title(sub = "KRAS protein domains: H_N_Ras-like GTPase domain", 
                    cex.sub = 0.9)
-dev.off()
+
 ```
 
 ![KRAS Lollipop Plot](/plots/KRAS_lollipop_plot.png)
 
-The lollipop plot confirms that G12 (particularly G12D, G12V, G12C) is the dominant mutation hotspot in KRAS, concentrated in the GTPase domain. 
+The lollipop plot confirms that G12 (particularly G12D, G12V, G12C) is the dominant mutation hotspot in KRAS, concentrated in the GTPase domain.  
 This is consistent with the known role of codon 12 mutations in disrupting GTP hydrolysis and locking KRAS in a constitutively active state.
 
 ---
@@ -507,34 +507,34 @@ Each column represents a sample and each row a gene, with colors indicating muta
 ```r
 paad_maf <- subsetMaf(maf = tcga_maf, 
                       clinQuery = "acronym == 'PAAD'")
-png("plots/oncoplot_PAAD_top20.png", width = 3000, height = 2000, res = 200)
+
 oncoplot(maf = paad_maf, top = 20, fontSize = 0.5,
          titleFontSize = 1,
          legendFontSize = 0.8,
          annotationFontSize = 0.8,
          SampleNamefontSize = 0.4 )
-dev.off()
+
 ```
 
 ![Oncoplot](/plots/oncoplot_PAAD_top20)
 
 The oncoplot reveals the somatic mutation landscape across 175 pancreatic adenocarcinoma (PAAD) samples. KRAS dominates as the most frequently mutated 
-gene, altered in over 90% of samples, consistent with its established role as the primary oncogenic driver in pancreatic cancer. \ 
-TP53 and SMAD4 appear as the next most frequently altered genes, reflecting the classical KRAS → TP53 → SMAD4 progression model of pancreatic tumorigenesis. \
-The high frequency of co-mutation between KRAS and TP53 underscores the cooperative role of these alterations in driving aggressive disease. \
+gene, altered in over 90% of samples, consistent with its established role as the primary oncogenic driver in pancreatic cancer. 
+TP53 and SMAD4 appear as the next most frequently altered genes, reflecting the classical KRAS → TP53 → SMAD4 progression model of pancreatic tumorigenesis. 
+The high frequency of co-mutation between KRAS and TP53 underscores the cooperative role of these alterations in driving aggressive disease. 
 
 ---
 
 ### 4. Somatic Interactions — Co-mutation Analysis
 
-Somatic interaction analysis identifies gene pairs that are significantly co-mutated or mutually exclusive across samples. \
-This is biologically important as it can reveal synthetic lethality relationships and pathway redundancies. \
+Somatic interaction analysis identifies gene pairs that are significantly co-mutated or mutually exclusive across samples. 
+This is biologically important as it can reveal synthetic lethality relationships and pathway redundancies. 
 
 ```r
-png("plots/somatic_interactions.png", width = 3000, height = 2000, res = 200)
+
 somaticInteractions(maf = tcga_maf,top = 25,
                     pvalue = c(0.05, 0.1))
-dev.off()
+
 ```
 
 ![Somatic Interactions](/plots/somatic_interactions.png)
@@ -552,9 +552,9 @@ transversions (A↔C, A↔T, G↔C, G↔T) across samples. This ratio serves as 
 fingerprint and can indicate exposure to specific mutagens such as UV radiation or tobacco smoke.
 
 ```r
-png("plots/titv_plot.png", width = 3500, height = 2400, res = 200)
+
 titv_result <- titv(maf = tcga_maf,plot = TRUE,useSyn = TRUE)
-dev.off()
+
 ```
 
 ![TiTv Plot](/plots/titv_plot.png)
@@ -571,10 +571,10 @@ Cancer types with high C>A transversions (such as lung cancers) reflect tobacco 
 providing context for how the mutational burden in each cancer type compares to published results.
 
 ```r
-png("plots/tcga_compare.png", width = 2800, height = 2000, res = 200)
+
 tcga_maf_compare <- tcgaCompare(maf = tcga_maf,cohortName = "TCGA Pan-cancer",
                                 logscale = TRUE,capture_size = 35.8,cohortFontSize=1,axisFontSize=1)
-dev.off()
+
 ```
 
 ![TCGA Comparison](/plots/tcga_compare.png)
