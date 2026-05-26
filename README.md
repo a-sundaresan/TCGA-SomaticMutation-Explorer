@@ -331,8 +331,12 @@ KRAS_WT_clinical_pancreatic$status<-0
 #gathering the KRAS_WT dataframe with age_at_initial_pathologic_diagnosis,group and status columns
 KRAS_WT_age_df<-data.frame(KRAS_WT_clinical_pancreatic$group,
                            as.numeric(KRAS_WT_clinical_pancreatic$age_at_initial_pathologic_diagnosis),
-                           KRAS_WT_clinical_pancreatic$status)
-colnames(KRAS_WT_age_df)<-c("Group","Age_at_initial_pathologic_diagnosis","Status")
+                           as.numeric(KRAS_WT_clinical_pancreatic$days_to_death),
+                           as.numeric(KRAS_WT_clinical_pancreatic$days_to_last_followup),
+                           KRAS_WT_clinical_pancreatic$status,
+                           KRAS_WT_clinical_pancreatic$vital_status)
+colnames(KRAS_WT_age_df)<-c("Group","Age_at_initial_pathologic_diagnosis","Days_to_death",
+                             "Days_to_last_followup","Status","Vital_status")
 
 #Summary of KRAS_WT age at initial pathologic diagnosis
 summary(KRAS_WT_age_df$Age_at_initial_pathologic_diagnosis)
@@ -343,8 +347,12 @@ summary(KRAS_WT_age_df$Age_at_initial_pathologic_diagnosis)
 #gathering the KRAS_mutated dataframe with age_at_initial_pathologic_diagnosis group and status columns
 KRAS_mutant_age_df<-data.frame(KRAS_mutated_clinical_pancreatic$group,
                                as.numeric(KRAS_mutated_clinical_pancreatic$age_at_initial_pathologic_diagnosis),
-                               KRAS_mutated_clinical_pancreatic$status)
-colnames(KRAS_mutant_age_df)<-c("Group","Age_at_initial_pathologic_diagnosis","Status")
+                               as.numeric(KRAS_mutated_clinical_pancreatic$days_to_death),
+                               as.numeric(KRAS_mutated_clinical_pancreatic$days_to_last_followup),
+                               KRAS_mutated_clinical_pancreatic$status,
+                               KRAS_mutated_clinical_pancreatic$vital_status)
+colnames(KRAS_mutant_age_df)<-c("Group","Age_at_initial_pathologic_diagnosis","Days_to_death",
+                                "Days_to_last_followup","Status","Vital_status")
 
 #Summary of KRAS_mutated age at initial pathologic diagnosis
 summary(KRAS_mutant_age_df$Age_at_initial_pathologic_diagnosis)
@@ -428,6 +436,141 @@ diagnosis between KRAS mutated and KRAS wild-type PAAD patients.
 - Wilcoxon p-value: 0.4522 (not significant)
 
 The result suggests that KRAS mutation status does not significantly influence age of onset in pancreatic adenocarcinoma.
+
+### 7. Survival Analysis — KRAS Mutation Status in PAAD
+
+Having established that KRAS mutation status does not influence age at diagnosis, we now 
+ask a more clinically relevant question: does KRAS mutation status affect overall survival 
+in pancreatic adenocarcinoma? We use Kaplan-Meier survival curves and the log-rank test 
+to compare survival between KRAS mutated and wild-type PAAD patients.
+
+```r
+library(survival)
+library(survminer)
+
+# Prepare survival data
+# Days_to_death for deceased patients, Days_to_last_followup for censored
+KRAS_WT_mutant_age_df$OS_days <- ifelse(!is.na(KRAS_WT_mutant_age_df$Days_to_death),
+  as.numeric(KRAS_WT_mutant_age_df$Days_to_death),
+  as.numeric(KRAS_WT_mutant_age_df$Days_to_last_followup)
+)
+
+# Convert to months for readability
+KRAS_WT_mutant_age_df$OS_months <- KRAS_WT_mutant_age_df$OS_days / 30.44
+
+KRAS_WT_mutant_age_df$OS_event <- ifelse(
+  KRAS_WT_mutant_age_df$Vital_status == "Dead", 1, 0
+)
+# Create survival object
+surv_object <- Surv(
+  time = KRAS_WT_mutant_age_df$OS_months,
+  event = KRAS_WT_mutant_age_df$OS_event
+)
+
+# Fit Kaplan-Meier curves by KRAS group
+km_fit <- survfit(surv_object ~ Group, 
+                  data = KRAS_WT_mutant_age_df)
+
+# Summary
+summary(km_fit)$table
+```
+
+#### Kaplan-Meier Survival Curves
+
+```r
+# Plot Kaplan-Meier curves
+km_plot <- ggsurvplot(
+  km_fit,
+  data = KRAS_WT_mutant_age_df,
+  pval = TRUE,                    # show log-rank p-value
+  pval.method = TRUE,             # show test name
+  conf.int = TRUE,                # show confidence intervals
+  risk.table = TRUE,              # show number at risk table
+  risk.table.col = "strata",
+  linetype = "strata",
+  surv.median.line = "hv",        # show median survival line
+  ggtheme = theme_bw(),
+  palette = c("#E7B800", "#2E9FDF"),
+  title = "Overall Survival by KRAS Mutation Status in PAAD",
+  xlab = "Time (Months)",
+  ylab = "Survival Probability",
+  legend.labs = c("KRAS Mutated", "KRAS Wild-type"),
+  legend.title = "Group",
+  font.main = c(14, "bold", "darkblue"),
+  font.x = c(12, "bold"),
+  font.y = c(12, "bold"),
+  font.tickslab = c(10, "bold"),
+  risk.table.fontsize = 3.5
+)
+
+# Save
+png("plots/KRAS_survival_KM.png", width = 2400, height = 2000, res = 200)
+print(km_plot)
+dev.off()
+```
+
+![Kaplan-Meier Survival Plot](/plots/KRAS_survival_KM.png)
+
+#### Median Survival
+
+```r
+# Extract median survival for each group
+surv_table <- summary(km_fit)$table
+print(surv_table[, c("median", "0.95LCL", "0.95UCL")])
+```
+| Group | Median Survival (months) | 95% CI Lower | 95% CI Upper |
+|-------|--------------------------|--------------|--------------|
+| KRAS Mutated | 17.0 | 15.4 | 20.8 |
+| KRAS Wild-type | 43.8 | 20.6 | NA* |
+
+*Upper confidence limit not reached — insufficient events in KRAS wild-type group
+
+#### Log-rank Test
+
+```r
+# Log-rank test for difference in survival between groups
+logrank_test <- survdiff(surv_object ~ Group, 
+                         data = KRAS_WT_mutant_age_df)
+print(logrank_test)
+
+Call:
+survdiff(formula = surv_object ~ Group, data = KRAS_WT_mutant_age_df)
+
+                     N Observed Expected (O-E)^2/E (O-E)^2/V
+Group=KRAS_mutated 118       75     57.1      5.59      13.3
+Group=KRAS_WT       67       25     42.9      7.45      13.3
+
+ Chisq= 13.3  on 1 degrees of freedom, p= 3e-04 
+
+# Extract p-value
+p_value <- 1 - pchisq(logrank_test$chisq, 
+                       length(logrank_test$n) - 1)
+cat("Log-rank p-value:", round(p_value, 4), "\n")
+
+Log-rank p-value: 3e-04 
+```
+
+The Kaplan-Meier analysis reveals a striking and statistically significant difference 
+in overall survival between KRAS mutated and wild-type PAAD patients.
+
+- **KRAS mutated:** median survival 17.0 months (95% CI: 15.4 – 20.8)
+- **KRAS wild-type:** median survival 43.8 months (95% CI: 20.6 – NA)
+- **Log-rank p-value: 0.0003**
+
+KRAS wild-type patients survive more than **2.5 times longer** than KRAS mutated patients. 
+The upper confidence limit for the wild-type group could not be estimated, indicating that 
+a substantial proportion of wild-type patients remained alive at last follow-up.
+
+These results suggest that KRAS mutation status is a significant prognostic factor in 
+pancreatic adenocarcinoma, with KRAS mutations associated with markedly worse overall 
+survival. This is consistent with the known role of oncogenic KRAS in driving aggressive 
+disease biology through constitutive activation of proliferative and anti-apoptotic signaling 
+pathways.
+
+*Note: the KRAS wild-type group is relatively small (N=67) compared to the mutated group 
+(N=118), reflecting the near-universal prevalence of KRAS mutations in PAAD. Results should 
+be interpreted with this imbalance in mind.*
+
 
 ## Advanced Somatic Mutation Analysis with maftools
 
