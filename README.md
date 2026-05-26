@@ -437,7 +437,7 @@ diagnosis between KRAS mutated and KRAS wild-type PAAD patients.
 
 The result suggests that KRAS mutation status does not significantly influence age of onset in pancreatic adenocarcinoma.
 
-### 7. Survival Analysis — KRAS Mutation Status in PAAD
+### Survival Analysis : KRAS Mutation Status in PAAD
 
 Having established that KRAS mutation status does not influence age at diagnosis, we now 
 ask a more clinically relevant question: does KRAS mutation status affect overall survival 
@@ -473,6 +473,7 @@ km_fit <- survfit(surv_object ~ Group,
 
 # Summary
 summary(km_fit)$table
+```
 
 | Group | N | Events | Median Survival (months) | 95% CI Lower | 95% CI Upper |
 |-------|---|--------|--------------------------|--------------|--------------|
@@ -480,7 +481,6 @@ summary(km_fit)$table
 | KRAS Wild-type | 67 | 25 | 43.8 | 20.6 | NA* |
 
 *Upper confidence limit not reached — insufficient events in KRAS wild-type group
-```
 
 #### Kaplan-Meier Survival Curves
 
