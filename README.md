@@ -433,3 +433,153 @@ The result suggests that KRAS mutation status does not significantly influence a
 Having explored KRAS-specific mutations and clinical correlations, we now use the `maftools` package for a broader view of the somatic mutation landscape across the TCGA pan-cancer cohort. 
 `maftools` provides a suite of functions specifically designed for MAF file analysis and produces publication-ready visualizations.
 
+```r
+library(maftools)
+#Lets match the IDs in TCGA data to the Clinical data first
+
+tcga_mutation_data$Tumor_Sample_Barcode <- substring(tcga_mutation_data$Tumor_Sample_Barcode, 1, 12)
+
+# Verify it looks right
+head(tcga_mutation_data$Tumor_Sample_Barcode)
+# Should now show: "TCGA-02-0003"
+
+# Rename clinical ID column to match
+colnames(tcga_clinical_data)[colnames(tcga_clinical_data) == "bcr_patient_barcode"] <- "Tumor_Sample_Barcode"
+
+
+# Read the MAF file into maftools
+# Clinical data is passed directly to annotate the MAF object
+tcga_maf <- read.maf(maf = tcga_mutation_data,
+                    clinicalData = tcga_clinical_data,verbose = FALSE)
+
+# Quick summary of the MAF object
+tcga_maf
+```
+
+### 1. Pan-cancer Mutation Summary
+
+The summary plot provides an at-a-glance overview of the entire dataset: 
+variant classifications, variant types, SNV classes, variants per sample, and the top 10 most frequently mutated genes.
+
+```r
+png("plots/maf_summary_plot.png", width = 2700, height = 2000, res = 200)
+plotmafSummary(maf = tcga_maf,rmOutlier = TRUE,
+               addStat = "median",dashboard = TRUE,
+               titvRaw = FALSE)
+dev.off()
+```
+
+![MAF Summary Plot](/plots/maf_summary_plot.png)
+
+The summary reveals the overall mutational landscape across TCGA cancer types. 
+Missense mutations dominate the variant classification, consistent with known cancer mutation patterns. 
+TP53 and KRAS appear among the top frequently mutated genes pan-cancer.
+
+---
+
+### 2. KRAS Lollipop Plot
+
+The lollipop plot maps somatic mutations onto the KRAS protein structure, providing a visual 
+summary of where mutations cluster along the protein domain. 
+This is particularly informative for identifying hotspot residues.
+
+```r
+png("plots/KRAS_lollipop_plot.png", width = 2700, height = 2000, res = 200)
+lollipopPlot(maf = tcga_maf,gene = "KRAS",
+             AACol = "HGVSp_Short",showMutationRate = TRUE,
+             showDomainLabel = FALSE,axisTextSize = c(1, 1))
+             title(sub = "KRAS protein domains: H_N_Ras-like GTPase domain", 
+                   cex.sub = 0.9)
+dev.off()
+```
+
+![KRAS Lollipop Plot](/plots/KRAS_lollipop_plot.png)
+
+The lollipop plot confirms that G12 (particularly G12D, G12V, G12C) is the dominant mutation hotspot in KRAS, concentrated in the GTPase domain. 
+This is consistent with the known role of codon 12 mutations in disrupting GTP hydrolysis and locking KRAS in a constitutively active state.
+
+---
+
+### 3. Oncoplot — Top Mutated Genes in PAAD
+The oncoplot reveals the somatic mutation landscape across the most frequently altered genes in pancreatic adenocarcinoma (PAAD). 
+Each column represents a sample and each row a gene, with colors indicating mutation type.
+
+```r
+paad_maf <- subsetMaf(maf = tcga_maf, 
+                      clinQuery = "acronym == 'PAAD'")
+png("plots/oncoplot_PAAD_top20.png", width = 3000, height = 2000, res = 200)
+oncoplot(maf = paad_maf, top = 20, fontSize = 0.5,
+         titleFontSize = 1,
+         legendFontSize = 0.8,
+         annotationFontSize = 0.8,
+         SampleNamefontSize = 0.4 )
+dev.off()
+```
+
+![Oncoplot](/plots/oncoplot_PAAD_top20)
+
+The oncoplot reveals the somatic mutation landscape across 175 pancreatic adenocarcinoma (PAAD) samples. KRAS dominates as the most frequently mutated 
+gene, altered in over 90% of samples, consistent with its established role as the primary oncogenic driver in pancreatic cancer. \ 
+TP53 and SMAD4 appear as the next most frequently altered genes, reflecting the classical KRAS → TP53 → SMAD4 progression model of pancreatic tumorigenesis. \
+The high frequency of co-mutation between KRAS and TP53 underscores the cooperative role of these alterations in driving aggressive disease. \
+
+---
+
+### 4. Somatic Interactions — Co-mutation Analysis
+
+Somatic interaction analysis identifies gene pairs that are significantly co-mutated or mutually exclusive across samples. \
+This is biologically important as it can reveal synthetic lethality relationships and pathway redundancies. \
+
+```r
+png("plots/somatic_interactions.png", width = 3000, height = 2000, res = 200)
+somaticInteractions(maf = tcga_maf,top = 25,
+                    pvalue = c(0.05, 0.1))
+dev.off()
+```
+
+![Somatic Interactions](/plots/somatic_interactions.png)
+
+Significant co-mutations and mutual exclusivities are shown with p-values. 
+Pairs shown in red are significantly co-mutated while blue pairs are mutually exclusive. 
+These patterns can inform combination therapy strategies and help prioritise therapeutic targets.
+
+---
+
+### 5. Transition and Transversion Analysis
+
+The transition/transversion (TiTv) plot summarises the ratio of transitions (A↔G, C↔T) to 
+transversions (A↔C, A↔T, G↔C, G↔T) across samples. This ratio serves as a mutational 
+fingerprint and can indicate exposure to specific mutagens such as UV radiation or tobacco smoke.
+
+```r
+png("plots/titv_plot.png", width = 3500, height = 2400, res = 200)
+titv_result <- titv(maf = tcga_maf,plot = TRUE,useSyn = TRUE)
+dev.off()
+```
+
+![TiTv Plot](/plots/titv_plot.png)
+
+The TiTv distribution across cancer types reflects known mutational processes. 
+C>T transitions predominate across most cancer types, consistent with spontaneous deamination of methylated cytosines, a hallmark of aging-related mutagenesis. 
+Cancer types with high C>A transversions (such as lung cancers) reflect tobacco smoke exposure.
+
+---
+
+### 6. Tumor Mutational Burden — TCGA Comparison
+
+`tcgaCompare` compares the mutation load of our cohort against TCGA benchmark datasets, 
+providing context for how the mutational burden in each cancer type compares to published results.
+
+```r
+png("plots/tcga_compare.png", width = 2800, height = 2000, res = 200)
+tcga_maf_compare <- tcgaCompare(maf = tcga_maf,cohortName = "TCGA Pan-cancer",
+                                logscale = TRUE,capture_size = 35.8,cohortFontSize=1,axisFontSize=1)
+dev.off()
+```
+
+![TCGA Comparison](/plots/tcga_compare.png)
+
+Tumor mutational burden (TMB) varies substantially across cancer types. 
+Melanoma and lung cancers show the highest TMB, consistent with UV and tobacco-related mutagenesis respectively, 
+while haematological malignancies and thyroid cancers show comparatively lower mutation loads.
+
