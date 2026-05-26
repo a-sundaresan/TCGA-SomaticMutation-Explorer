@@ -9,13 +9,13 @@ Exploratory analysis of TCGA pan-cancer somatic mutation data using R.
 Focuses on KRAS mutation frequency, amino acid changes, and clinical correlations across cancer types.
 
 ## Table of Contents
-## Table of Contents
 - [Data Sources](#data-sources)
 - [KRAS Mutation Frequency Across Cancer Types](#kras-mutation-frequency-across-cancer-types)
 - [KRAS Silent Mutation Frequency](#kras-silent-mutation-frequency)
 - [KRAS Amino Acid Change Distribution](#kras-amino-acid-change-distribution)
 - [G12D Mutation Analysis](#g12d-mutation-analysis)
 - [Clinical Correlation in Pancreatic Cancer PAAD](#clinical-correlation-in-pancreatic-cancer-paad)
+- [Advanced Somatic Mutation Analysis with maftools](#advanced-somatic-mutation-analysis-with-maftools)
 ---
 
 ## Key Findings
@@ -24,7 +24,8 @@ Focuses on KRAS mutation frequency, amino acid changes, and clinical correlation
 - **UCEC leads silent mutations** — Uterine Corpus Endometrial Carcinoma (UCEC) shows the highest frequency of KRAS silent mutations, suggesting a distinct mutational mechanism
 - **G12D is the most prevalent KRAS variant** — Among all amino acid changes, G12D is the most common KRAS mutation in the TCGA pan-cancer cohort
 - **G12D is enriched in COAD and PAAD** — The G12D hotspot mutation is most prevalent in Colon Adenocarcinoma and Pancreatic Adenocarcinoma, consistent with its known role as a driver mutation in these cancer types
-- **No significant age difference in PAAD** — Age at diagnosis is similar between KRAS mutated (mean 65.2y) and wild-type (mean 64.4y) patients (Wilcoxon p = 0.4522), suggesting KRAS mutation status does not influence age of onset in pancreatic cancer
+- **KRAS dominates PAAD** — KRAS is mutated in over 90% of pancreatic adenocarcinoma samples, confirming its role as the primary oncogenic driver in PAAD
+- **No significant age difference in PAAD** — Age at diagnosis is similar between KRAS mutated (mean 65.2y) and wild-type (mean 64.4y) patients (Wilcoxon p = 0.4522), suggesting KRAS mutation status does not influence age of onset
 ---
 
 **Data:** TCGA MAF file + clinical data (publicly available via GDC)  
@@ -424,7 +425,7 @@ diagnosis between KRAS mutated and KRAS wild-type PAAD patients.
 
 - KRAS mutated: mean age 65.2 years (N=~150)
 - KRAS wild-type: mean age 64.4 years (N=~30)
-- Wilcoxon p-value: update after running
+- Wilcoxon p-value: 0.4522 (not significant)
 
 The result suggests that KRAS mutation status does not significantly influence age of onset in pancreatic adenocarcinoma.
 
