@@ -516,7 +516,7 @@ oncoplot(maf = paad_maf, top = 20, fontSize = 0.5,
 
 ```
 
-![Oncoplot](/plots/oncoplot_PAAD_top20)
+![Oncoplot](/plots/oncoplot_PAAD_top20.png)
 
 The oncoplot reveals the somatic mutation landscape across 175 pancreatic adenocarcinoma (PAAD) samples. KRAS dominates as the most frequently mutated 
 gene, altered in over 90% of samples, consistent with its established role as the primary oncogenic driver in pancreatic cancer. 
